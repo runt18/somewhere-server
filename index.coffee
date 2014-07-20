@@ -13,13 +13,17 @@ app.get '/:place', (req, res) ->
 
     yelp.search params, (error, data) ->
         if error
-            throw error
+            res.send(JSON.stringify({ error: 'Failed to load' }))
 
         res.header("Content-Type", "application/json")
 
-        ret = data.businesses[...n].map (i) ->
+        b  = data.businesses[...n]
+        console.log(b[0])
+
+        ret = b.map (i) ->
             {
                 name: i.name
+                url: i.url
             }
 
         res.send(JSON.stringify(ret))
